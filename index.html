@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Song List with Play Button</title>
+</head>
+<body>
+  <h1>Song List</h1>
+  <ul id="songList">
+    <!-- The song list will be generated here by JavaScript -->
+  </ul>
+
+  <script>
+    // Fetch JSON file and populate the list
+    fetch('test.json')
+      .then(response => response.json())
+      .then(data => {
+        const songList = document.getElementById('songList');
+        
+        data.forEach(song => {
+          // Create a list item for each song
+          const listItem = document.createElement('li');
+          
+          // Create a title element
+          const title = document.createElement('span');
+          title.textContent = `${song.title} by ${song.artist}`;
+          
+          // Create an audio element with a play button
+          const audio = document.createElement('audio');
+          audio.controls = true; // Adds play button
+          audio.src = `media/${song.filename}`;
+
+          // Append title and audio to the list item
+          listItem.appendChild(title);
+          listItem.appendChild(audio);
+
+          // Append the list item to the unordered list
+          songList.appendChild(listItem);
+        });
+      })
+      .catch(error => console.error('Error loading songs:', error));
+  </script>
+</body>
+</html>
